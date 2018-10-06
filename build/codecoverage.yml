@@ -1,0 +1,14 @@
+steps:
+- script: |
+    #bash <(curl -s https://codecov.io/bash)
+    cd $(Build.SourcesDirectory)/build
+    env
+    chmod 755 codecov.sh
+    ./codecov.sh -K -f '!*.yml'
+  displayName: 'Execute https://codecov.io/bash'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage results'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/tests/LineBot.Tests/coverage.cobertura.xml'
